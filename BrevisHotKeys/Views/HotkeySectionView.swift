@@ -19,11 +19,16 @@ struct HotkeySectionView: View {
     let sectionHeaderColor: Color = .red
     
     var filterHotkeyModels: [HotKeyModel] {
-        hotkeyModels
+        if searchQuery.isEmpty || searchQuery.count == 1 {
+            return hotkeyModels
+        }  else {
+            return hotkeyModels.filter {
+                $0.text.lowercased().contains(searchQuery.lowercased())
+            }
+        }
     }
     
     var body: some View {
-        
             if !filterHotkeyModels.isEmpty {
                 Section {
                     ForEach(filterHotkeyModels) { hotkeyModel in
@@ -35,10 +40,8 @@ struct HotkeySectionView: View {
                         .font(sectionHeaderFont)
                         .fontWeight(fontweight)
                         .foregroundStyle(sectionHeaderColor)
-                    
                 }
             }
-        
     }
 }
 
